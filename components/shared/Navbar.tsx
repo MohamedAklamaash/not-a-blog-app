@@ -26,7 +26,8 @@ function Navbar() {
     <nav
     className={
         clsx(`py-4 w-full`,
-            isScrolling&&"fixed top-0 left-0 bg-white shadow-lg z-10 "
+            isScrolling&&"fixed top-0 left-0 bg-white shadow-lg z-10 ",
+            !isScrolling&&"pb-6"
         )
     }
     >

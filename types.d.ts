@@ -7,15 +7,15 @@ interface routeProps {
 
 type ButtonProps = {
     text: string,
-    onclick: () => void,
+    onclick?: () => void,
     aria: string
 }
 
-interface TagProps{
-    text:string[]
+interface TagProps {
+    text: string[]
 }
 
-interface BlogData{
+interface BlogData {
     id: number;
     title: string;
     image_path: string;
