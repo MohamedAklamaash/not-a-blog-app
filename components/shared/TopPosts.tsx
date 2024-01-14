@@ -32,7 +32,9 @@ export default function TopPosts() {
         {
           topPostArr.map((post,index)=>{
             return(
-              <>
+              <div
+              key={index}
+              >
                   <Link
                   href={{
                     pathname: `blog/${post.id}`,
@@ -77,12 +79,11 @@ export default function TopPosts() {
                       </div>
                     </article>
                   </Link>
-              </>
+              </div>
             )
           })
         }
       </div>
-
     </section>
   )
 }
