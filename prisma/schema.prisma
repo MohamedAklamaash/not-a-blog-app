@@ -34,8 +34,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
-
 model VerificationToken {
   id         String    @id @default(cuid()) @map("_id")
   identifier String

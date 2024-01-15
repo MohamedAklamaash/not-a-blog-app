@@ -28,3 +28,7 @@ interface BlogData {
     publishDate: string;
     latestPost?: undefined;
 }
+
+interface AuthContextProps {
+    children: React.ReactNode
+}

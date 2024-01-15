@@ -3,6 +3,7 @@ import { Inter,Roboto,Poppins } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
+import AuthContext from '@/context/authContext';
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({
   subsets:["latin"],
@@ -29,10 +30,12 @@ export default function RootLayout({
         overflowX:"hidden"
       }}
       >
-        <Navbar/>
-        {children}
-        <Footer/>
-      </body>
+          <AuthContext>
+              <Navbar/>
+                {children}
+              <Footer/>
+          </AuthContext>
+          </body>
     </html>
   )
 }
