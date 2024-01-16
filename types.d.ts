@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 interface routeProps {
     route: string,
     label: string,
@@ -8,7 +10,9 @@ interface routeProps {
 type ButtonProps = {
     text: string,
     onclick?: () => void,
-    aria: string
+    aria: string,
+    action?: boolean,
+    type?: "button" | "submit" | "reset"
 }
 
 interface TagProps {
@@ -31,4 +35,27 @@ interface BlogData {
 
 interface AuthContextProps {
     children: React.ReactNode
+}
+
+interface User {
+    id: string;
+    name: string | null;
+    email: string | null;
+    emailVerified: Date | null;
+    image: string | null;
+}
+
+interface FormProps {
+    children: React.ReactNode,
+    action: (formData: FormData) => Promise<void | boolean>;
+    className?: string;
+    onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}
+
+interface inputProps {
+    name?: string,
+    type?: string,
+    placeholder?: string,
+    value?: string | number | readonly string[] | undefined,
+
 }

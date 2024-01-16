@@ -4,6 +4,8 @@ import './globals.css'
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import AuthContext from '@/context/authContext';
+import { getCurrentUser } from '@/actions/getCurrentUser';
+import { useRouter } from 'next/navigation';
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({
   subsets:["latin"],
@@ -19,11 +21,12 @@ export const metadata: Metadata = {
   description: 'Done by Aklamaash',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const user = await getCurrentUser();
   return (
     <html lang="en">
       <body className={`${poppins.className} bg-light`} style={{
@@ -31,7 +34,7 @@ export default function RootLayout({
       }}
       >
           <AuthContext>
-              <Navbar/>
+              <Navbar user={user} />
                 {children}
               <Footer/>
           </AuthContext>

@@ -1,3 +1,4 @@
+"use client"
 import {useState,useEffect} from 'react';
 import {CgMenuGridO,CgClose} from "react-icons/cg";
 import {FaSquareXTwitter,FaSquareInstagram,FaSquareSnapchat} from "react-icons/fa6";
@@ -7,7 +8,9 @@ import { navLinks } from '@/constants';
 import Link from 'next/link';
 import Routes from '../UI/Routes';
 import useMenuActiveHook from '@/hooks/useMenuActiveHook';
-export default function MobileMenu() {
+import { signIn, signOut } from 'next-auth/react';
+import { User } from '@/types';
+export default  function MobileMenu({user}:User) {
   const [openMobileMenu, setopenMobileMenu] = useState<boolean>(false);
   const mobileMenuHandler = ()=>{
     setopenMobileMenu(!openMobileMenu)
@@ -31,11 +34,11 @@ export default function MobileMenu() {
                 openMobileMenu ? (
                     <div
                     onClick={()=>setopenMobileMenu(false)}
-                    className=' w-full fixed top-0 left-0 h-screen bg-black/25 z-50'
+                    className=' w-full  fixed top-0 left-0 h-screen bg-black/25 z-50'
                     >
                         <div 
                         onClick={(e)=>e.stopPropagation()}
-                        className=' absolute h-screen left-0 top-0 w-60 bg-white z-[999]  px-5 overflow-y-hidden border-r flex flex-col gap-10 '
+                        className=' absolute h-screen left-0 top-0 w-60 bg-white z-[999]  px-5 overflow-y-auto overflow-x-hidden  border-r flex flex-col gap-10 '
                         >
                             <div
                             className=' border-b py-5 '
@@ -74,12 +77,30 @@ export default function MobileMenu() {
                                 );
                             })}
                         </ul>
-                        <div 
-                        className="flex flex-1 gap-5 flex-col justify-center items-center"
-                        >
-                            <Button text='Log In' onclick={()=>null} aria='Sign In Button'/>
-                            <Button text='Sign Up' onclick={()=>null} aria='Sign Up Button'/>
-                        </div>
+                        {
+                            user && (
+                                <div className=' flex gap-3 h-24'>
+                                    <h3 className="text-lg">{user.name}</h3>
+                                    <img src={user.image as string} alt="user's image" width={100} height={100} className=' rounded-full' />
+                                </div>
+                            )
+                        }
+                        {
+                            !user ?(
+                                <div 
+                                className="flex flex-1 gap-5 flex-col justify-center items-center"
+                                >
+                                    <Button text='Log In' onclick={signIn} aria='Sign In Button'/>
+                                    <Button text='Sign Up' onclick={signIn} aria='Sign Up Button'/>
+                                </div>
+                            ):(
+                                <div className='flex flex-col items-center gap-3 justify-center pb-3'>
+                                    <Button text='Create a Post' onclick={()=>null} aria='Create a post btn'/>
+                                    <Button text='My Posts' onclick={()=>null} aria='My Posts'/>
+                                    <Button text='Log Out'  onclick={signOut} aria='Sign Out button'/>
+                                </div>
+                            )
+                        }
                         </div>
                     </div>
                 ):""
