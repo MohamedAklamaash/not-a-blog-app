@@ -57,5 +57,12 @@ interface inputProps {
     type?: string,
     placeholder?: string,
     value?: string | number | readonly string[] | undefined,
-
 }
+
+interface userTypes {
+    id: string,
+    userName: string,
+    email: string,
+    emailVerified: Date | string | null,
+    image: string | null
+};

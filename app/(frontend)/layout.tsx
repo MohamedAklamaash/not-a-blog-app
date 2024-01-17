@@ -5,7 +5,7 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import AuthContext from '@/context/authContext';
 import { getCurrentUser } from '@/actions/getCurrentUser';
-import { useRouter } from 'next/navigation';
+import { EdgeStoreProvider } from "@/lib/EdgeStore";
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({
   subsets:["latin"],
@@ -34,9 +34,11 @@ export default async function RootLayout({
       }}
       >
           <AuthContext>
-              <Navbar user={user} />
-                {children}
-              <Footer/>
+            <EdgeStoreProvider>
+                <Navbar user={user} />
+                  {children}
+                <Footer/>
+              </EdgeStoreProvider>
           </AuthContext>
           </body>
     </html>
