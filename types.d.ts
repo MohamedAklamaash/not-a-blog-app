@@ -46,10 +46,10 @@ interface User {
 }
 
 interface FormProps {
-    children: React.ReactNode,
-    action: (formData: FormData) => Promise<void | boolean>;
+    children?: React.ReactNode,
+    action?: (formData: FormData) => Promise<void | boolean>;
     className?: string;
-    onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+    onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 interface inputProps {
@@ -66,3 +66,18 @@ interface userTypes {
     emailVerified: Date | string | null,
     image: string | null
 };
+
+interface PostTypes {
+    id: string,
+    title: string,
+    img: string,
+    desc: string,
+    featured: boolean,
+    topPost: boolean,
+    category: string,
+    authorImage: string,
+    authorName: string,
+    publishedAt: string,
+    createdAt: string,
+    user: User;
+}

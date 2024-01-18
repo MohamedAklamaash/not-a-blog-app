@@ -7,9 +7,10 @@ import { useEdgeStore } from '@/lib/EdgeStore';
 import { useEffect , useState } from 'react';
 import Button from '../UI/Button';
 import { SingleImageDropzone } from '../UI/SingleImageDropZone';
+import { createPost } from '@/actions/blogActions';
 
 export default function CreateForm({user}:{user:User}) {
-  const [file, setfile] = useState<File>();
+  const [file, setfile] = useState<File | null | undefined>(null);
   const edgestore = useEdgeStore();
   const [image_path, setimage_path] = useState<string | undefined>("");
   const uploadImageHandler = async()=>{
@@ -48,7 +49,59 @@ export default function CreateForm({user}:{user:User}) {
         {
           user && (
             <>
-              <SingleImageDropzone />
+              <SingleImageDropzone
+              onChange={(file)=>{
+                setfile(file)
+              }}
+              value={file}
+              width={100}
+              height={100}
+              />
+              <Form
+              action={createPost}
+              className=' flex flex-col gap-5 mt-5 '
+              onSubmit={()=>setfile(undefined)}
+              >
+                <Input 
+                  type="hidden"
+                  name='image'
+                  value={image_path}
+                />
+                <Input
+                type = "text"
+                name='title'
+                placeholder='Enter Title'
+                />
+                <textarea
+                required
+                name='description'
+                rows={10}
+                placeholder='Write Here ....'
+                className=' text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6 border w-full border-gray-200 p-2 rounded-md py-1.5 ' 
+                ></textarea>
+                <select 
+                name="category"
+                required
+                className=' text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6 border w-full border-gray-200 p-2 rounded-md py-1.5 ' 
+                >
+                  <option value="" disabled selected>Choose Tag</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Culture">Culture</option>
+                  <option value="Discovery">Discovery</option>
+                  <option value="Discovery">Discovery</option>
+                  <option value="Wanderlust">Wanderlust</option>
+                </select>
+                <Input 
+                name='email'
+                type='hidden'
+                value={user?.email || ""}
+                />
+                <Button
+                type='submit'
+                text='Create'
+                aria='Create the Blog'
+                />
+              </Form>
             </>
           )
         }
