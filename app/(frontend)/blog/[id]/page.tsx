@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Tag from '@/components/UI/Tag';
 import {FaSquareXTwitter,FaSquareInstagram,FaSquareSnapchat} from "react-icons/fa6";
 import {FaFacebook} from "react-icons/fa";
+import { BlogData } from '@/types';
 export default function page({searchParams}:{searchParams:BlogData}) {
   const post = searchParams;
   

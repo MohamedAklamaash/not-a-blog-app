@@ -65,13 +65,16 @@ const SingleImageDropzone = React.forwardRef<
   ) => {
     const imageUrl = React.useMemo(() => {
       if (typeof value === "string") {
+        // in case a url is passed in, use it to display the image
         return value;
       } else if (value) {
+        // in case a file is passed in, create a base64 url to display the image
         return URL.createObjectURL(value);
       }
       return null;
     }, [value]);
 
+    // dropzone configuration
     const {
       getRootProps,
       getInputProps,
@@ -85,7 +88,6 @@ const SingleImageDropzone = React.forwardRef<
       multiple: false,
       disabled,
       onDrop: (acceptedFiles) => {
-        console.log('onDrop called with files:', acceptedFiles);
         const file = acceptedFiles[0];
         if (file) {
           void onChange?.(file);
@@ -94,6 +96,7 @@ const SingleImageDropzone = React.forwardRef<
       ...dropzoneOptions,
     });
 
+    // styling
     const dropZoneClassName = React.useMemo(
       () =>
         twMerge(
@@ -117,6 +120,7 @@ const SingleImageDropzone = React.forwardRef<
       ]
     );
 
+    // error validation messages
     const errorMessage = React.useMemo(() => {
       if (fileRejections[0]) {
         const { errors } = fileRejections[0];
@@ -150,15 +154,18 @@ const SingleImageDropzone = React.forwardRef<
             },
           })}
         >
+          {/* Main File Input */}
           <input ref={ref} {...getInputProps()} />
 
           {imageUrl ? (
+            // Image Preview
             <img
               className="h-full w-full rounded-md object-cover"
               src={imageUrl}
               alt={acceptedFiles[0]?.name}
             />
           ) : (
+            // Upload Icon
             <div className="flex flex-col items-center justify-center text-xs text-gray-400">
               <UploadCloudIcon className="mb-2 h-7 w-7" />
               <div className="text-gray-400">
@@ -175,6 +182,7 @@ const SingleImageDropzone = React.forwardRef<
             <div
               className="group absolute right-0 top-0 -translate-y-1/4 translate-x-1/4 transform"
               onClick={(e) => {
+                e.stopPropagation();
                 void onChange?.(undefined);
               }}
             >
@@ -197,6 +205,7 @@ const SingleImageDropzone = React.forwardRef<
     );
   }
 );
+SingleImageDropzone.displayName = "SingleImageDropzone";
 
 const Button = React.forwardRef<
   HTMLButtonElement,
@@ -205,8 +214,11 @@ const Button = React.forwardRef<
   return (
     <button
       className={twMerge(
+        // base
         "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
+        // color
         "border border-gray-400 text-tertiary shadow hover:bg-primary hover:text-white ",
+        // size
         "h-6 rounded-md px-2 text-xs",
         className
       )}
@@ -215,6 +227,7 @@ const Button = React.forwardRef<
     />
   );
 });
+Button.displayName = "Button";
 
 function formatFileSize(bytes?: number) {
   if (!bytes) {

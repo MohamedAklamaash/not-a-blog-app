@@ -13,6 +13,7 @@ export default function CreateForm({user}:{user:User}) {
   const [file, setfile] = useState<File | null | undefined>(null);
   const edgestore = useEdgeStore();
   const [image_path, setimage_path] = useState<string | undefined>("");
+  const [selectedOption, setselectedOption] = useState<string | null>("");
   const uploadImageHandler = async()=>{
     if(file){
       const res = await edgestore.edgestore.publicFiles.upload({file});
@@ -49,14 +50,14 @@ export default function CreateForm({user}:{user:User}) {
         {
           user && (
             <>
-              <SingleImageDropzone
+              {/* <SingleImageDropzone
               onChange={(file)=>{
                 setfile(file)
               }}
-              value={file}
+              value={file as File}
               width={100}
               height={100}
-              />
+              /> */}
               <Form
               action={createPost}
               className=' flex flex-col gap-5 mt-5 '
@@ -81,7 +82,9 @@ export default function CreateForm({user}:{user:User}) {
                 ></textarea>
                 <select 
                 name="category"
-                required
+                onChange={(e)=>{
+                  setselectedOption(e.target.value);
+                }}
                 className=' text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6 border w-full border-gray-200 p-2 rounded-md py-1.5 ' 
                 >
                   <option value="" disabled selected>Choose Tag</option>
